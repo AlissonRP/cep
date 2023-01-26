@@ -60,13 +60,10 @@ shapiro.test(u)
 ```
 
 
-
+# Gráfico de Controle
 
 ```{r}
-
 # graifico U
-
-
 UM <- mean(u)
 me <- 3*sqrt((UM/dados$total))
 LSC <- UM + me
