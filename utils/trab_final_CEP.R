@@ -1,21 +1,3 @@
-library(tidyverse)
-
-dados <- readxl::read_excel("CEP.xlsx")
-dados$total <- dados$REJEITADAS+dados$LIBERADAS
-dados <- dados |> 
-  filter(CLIENTE == 'PAMPA')
-
-# graifico U
-
-u <- dados$REJEITADAS/dados$total
-UM <- mean(u)
-me <- 3*sqrt((UM/dados$total))
-LSC <- UM + me
-LIC <- UM - me
-
-g_controle2(vari = u,lsc = LSC,lic = LIC,lm = UM,laby = "")
-
-
 
 # Função :
 g_controle2<-function(vari,lsc,lic,lm,labx="Amostras",laby="Valor",cal="mean"){
@@ -31,7 +13,7 @@ g_controle2<-function(vari,lsc,lic,lm,labx="Amostras",laby="Valor",cal="mean"){
   lsc2[lsc2 > 1] <- 1
   lsc[lsc > 1] <- 1
   graf<-data.frame(vari,n,lsc,lic,lm,lic1,lic2,lsc1,lsc2)
-  graf1<-graf |> 
+  graf1<-graf |>
     mutate(fora=case_when(
       vari >= lsc | vari<= lic ~ vari
     ))

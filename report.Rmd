@@ -24,7 +24,8 @@ ggplot2::theme_set(ggplot2::theme_minimal())
 knitr::opts_chunk$set(echo=F, message=F, warning=F, fig.pos = 'H', 
                       fig.align = 'center', fig.width = 6, fig.height= 3.4)
 scale_fill_discrete = \(...) ggplot2::scale_fill_brewer(... , palette = "Set2") 
-
+library(tidyverse)
+source("utils/trab_final_CEP.R")
 ```
 
 
@@ -53,6 +54,23 @@ plot(rnorm(500))
 
 
 
+```{r}
+
+dados <- readxl::read_excel("CEP.xlsx")
+dados$total <- dados$REJEITADAS+dados$LIBERADAS
+dados <- dados |> 
+  filter(CLIENTE == 'PAMPA')
+
+# graifico U
+
+u <- dados$REJEITADAS/dados$total
+UM <- mean(u)
+me <- 3*sqrt((UM/dados$total))
+LSC <- UM + me
+LIC <- UM - me
+
+g_controle2(vari = u,lsc = LSC,lic = LIC,lm = UM,laby = "")
+```
 
 
 You cross-reference figures like this: Figure \@ref(fig:crfgraph)
