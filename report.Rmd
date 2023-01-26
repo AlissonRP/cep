@@ -78,7 +78,8 @@ onde, $n$ é o tamanho amostral para cada amostra.
 ## Gráfico U
 
 
-```{r}
+
+```{r gcont, fig.cap="Gráfico de controle U."}
 # graifico U
 UM <- mean(u)
 me <- 3*sqrt((UM/dados$total))
