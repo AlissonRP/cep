@@ -1,7 +1,9 @@
 ---
 title: "Investigando a deterioração das válvulas P45"
 author: "Alisson Rosa, João Scrimini e Vítor Pereira"
-abstract: "abstract"
+abstract: "No presente trabalho buscamos investigar o sucateamento de válvulas de         botijão 
+  de gás em uma indústria de recuperação
+  de válvulas de gás. É estudado o comportamento das peças rejeitadas ao longos dos meses, assim como também é utilizado gráficos de controle para averiguar a existência de anomalias"
 header-includes:
    - \usepackage[brazil]{babel}
    - \usepackage{bm}
@@ -29,7 +31,7 @@ source("utils/trab_final_CEP.R")
 
 # Introdução
 
-No presente trabalho buscamos investigar o sucateamento de válvulas de botijão 
+Nesse breve ensaio buscamos investigar o sucateamento de válvulas de botijão 
 de gás e aplicar métodos de controle estatístico em uma indústria de recuperação
 de válvulas de gás. O banco de dados contém informações sobre o cliente, mês, 
 peças liberadas e peças rejeitadas. 
@@ -62,16 +64,40 @@ peças estão em seu ciclo natural de deteriorização conforme o uso.
 
 # Análise Básica
 
+
+
+
+
+
 ```{r}
 dados <- readxl::read_excel("data/CEP.xlsx")
+dados = read_csv("data/CEP.csv")
 dados$total <- dados$REJEITADAS+dados$LIBERADAS
 dados <- dados |> 
   filter(CLIENTE == 'PAMPA')
 u <- dados$REJEITADAS/dados$total
 shapiro.test(u)
 ```
+Podemos notar pela figura \@ref(fig:tnc), que ao longo dos meses o total mediano peças rejeitadas tende a ter quantidades elevadas em Novembro.
+
+```{r  tnc, fig.cap="Total Mediano de Rejeições ao longo dos Meses"}
+dados |> 
+  group_by(`MÊS`) |> 
+  summarise(TOTAL = median(REJEITADAS)) |> 
+  ggplot(aes(x = `MÊS`, y = TOTAL, fill = `MÊS`)) +
+  geom_bar(stat = 'identity')
+```
+Entretanto pela figura \@ref(fig:tnc2) que informa o caso médio, nota-se uma estabilidade nos meses.
 
 
+
+```{r  tnc2, fig.cap="Total Médio de Rejeições ao longo dos Meses"}
+dados |> 
+  group_by(`MÊS`) |> 
+  summarise(TOTAL = mean(REJEITADAS)) |> 
+  ggplot(aes(x = `MÊS`, y = TOTAL, fill = `MÊS`)) +
+  geom_bar(stat = 'identity')
+```
 # Gráfico de Controle
 
 Nesta seção, serão apresentados uma breve explicação do método utilizado e posteriormente suas respectivas análises.
@@ -135,7 +161,7 @@ Deste modo conclui-se que o processo está sob controle e não há impacto da
 empresa de recuperação das válvulas no processo, apenas há o desgaste natural das
 peças, pela reutilização das mesmas pelos ciclos do butijão de gás.
 
-# Bibliography
+
 
 
 
