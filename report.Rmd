@@ -28,7 +28,7 @@ scale_fill_discrete = \(...) ggplot2::scale_fill_brewer(... , palette = "Set2")
 ```
 
 
-\section{Section name}
+\section{Introdução}
 ```{r }
 # R code 
 iris |> 
@@ -47,10 +47,19 @@ You cross-reference tables like this: Table \@ref(tab:crftable)
 ```{r crfgraph, fig.cap = "Fig name"}
 plot(rnorm(500))
 ```
+\section{Análise Básica}
+
+
+
+
+
+
 
 You cross-reference figures like this: Figure \@ref(fig:crfgraph)
 
 You can use `#` to create a section too, like this:
+
+\section{Conclusão}
 # Bibliography
 
 
