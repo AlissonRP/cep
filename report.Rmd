@@ -1,0 +1,57 @@
+---
+title: "title"
+author: "eu"
+abstract: "abstract"
+header-includes:
+   - \usepackage[brazil]{babel}
+   - \usepackage{bm}
+   - \usepackage{float}
+geometry: left=1.7cm, right=1.7cm, top=3cm, bottom=3cm
+output:
+  bookdown::pdf_document2:
+editor_options:
+  chunk_output_type: console
+indent: true
+---
+
+
+
+```{r setup, include=F}
+
+options(digits = 3)  
+options(scipen = 999)
+ggplot2::theme_set(ggplot2::theme_minimal()) 
+knitr::opts_chunk$set(echo=F, message=F, warning=F, fig.pos = 'H', 
+                      fig.align = 'center', fig.width = 6, fig.height= 3.4)
+scale_fill_discrete = \(...) ggplot2::scale_fill_brewer(... , palette = "Set2") 
+
+```
+
+
+\section{Section name}
+```{r }
+# R code 
+iris |> 
+  mypdf1::pdf1_summary()
+  
+```
+```{r crftable}
+
+iris |>  
+mypdf1::pdf1_tbl_freq(Species) |> 
+  mypdf1::pdf1_tbl("You can combine this function too!")
+    
+```
+You cross-reference tables like this: Table \@ref(tab:crftable)
+
+```{r crfgraph, fig.cap = "Fig name"}
+plot(rnorm(500))
+```
+
+You cross-reference figures like this: Figure \@ref(fig:crfgraph)
+
+You can use `#` to create a section too, like this:
+# Bibliography
+
+
+
