@@ -1,6 +1,6 @@
 ---
-title: "title"
-author: "eu"
+title: "Investigando a deterioração das válvulas P45"
+author: "Alisson Rosa, João Scrimini e Vítor Pereira"
 abstract: "abstract"
 header-includes:
    - \usepackage[brazil]{babel}
@@ -28,6 +28,37 @@ source("utils/trab_final_CEP.R")
 
 
 # Introdução
+
+No presente trabalho buscamos investigar o sucateamento de válvulas de botijão 
+de gás e aplicar métodos de controle estatístico em uma indústria de recuperação
+de válvulas de gás. O banco de dados contém informações sobre o cliente, mês, 
+peças liberadas e peças rejeitadas. 
+
+Nota-se que é um setor extremamente específico da cadeia industrial brasileira e
+pouco conhecido pelo público em geral, pois a empresa analisada trabalha no método
+B2B (Business-to-Business, em português, empresa que faz negócio com empresas).
+Assim trabalhando de forma nacional apenas para grandes companhias de gás e 
+empresas de requalificação de vasilhames de gás. 
+
+
+O principal serviço prestado pela empresa é a recuperação de válvulas e produção
+de mangueiras para gás, assim recuperando desde válvulas de gás de cozinha de 13
+kg (válvula P13) até válvulas de gás comercial de 45 kg (válvula P45), sendo 
+essa última a qual utilizaremos para a análise estatística. 
+
+No entanto, para fins de uma comparação estatística coerente, realizaremos um
+corte no nosso banco de dados para que não seja afetado pela diferença de peças 
+sucateadas de um cliente para outro. Ou seja, as empresas enviam as peças para a 
+recuperação de válvulas em ciclos diferentes, por exemplo, uma empresa que envia
+as peças para a recuperação após o nono ciclo (o estabelecido em lei) tem menos
+peças sucateadas que empresas que enviam para recuperação após o vigésimo ou 
+trigésimo ciclo. 
+
+Assim, decidiu-se utilizar dados de apenas uma peça e um cliente,
+o predominante na amostra. Para que seja possível investigar se em 
+algum lote houve danificação pela empresa de recuperação ou se as 
+peças estão em seu ciclo natural de deteriorização conforme o uso.
+
 
 # Análise Básica
 
@@ -58,7 +89,7 @@ Desta forma, podemos ter 4 diferentes gráficos (Cartas de atributos) para esse 
 \item Carta \textbf{u}: Quando os dados são número de unidades (discreto) e as amostras podem ser de tamanhos diferentes.
 \end{itemize}
 
-Por conta disso, os dados analisados neste estudo são de forma distreta (número de ... rejeitados) e o tamanho amostral varia em cada amostra coletada. Assim, a carta de controle mais correta a ser utilizada neste estudo é a carta \textbf{u} (ou Gráfico U). No qual os limites de controle são definidos da seguinte forma:
+Por conta disso, os dados analisados neste estudo são de forma discreta (número de ... rejeitados) e o tamanho amostral varia em cada amostra coletada. Assim, a carta de controle mais correta a ser utilizada neste estudo é a carta \textbf{u} (ou Gráfico U). No qual os limites de controle são definidos da seguinte forma:
 
 \textbf{Linha Média:} (LM)
 
@@ -92,8 +123,18 @@ g_controle2(vari = u,lsc = LSC,lic = LIC,lm = UM,laby = "")
 
 # Conclusões
 
+O gráfico mais apropriado para a porcentagem de peças sucateadas em um lote é a
+carta de controle U, visto que o tamanho da amostra é diferente em cada lote.
 
-\section{Conclusão}
+Com isso percebemos que na a Figura \@ref(fig:gcont), com o gráfico de controle 
+para porcentagem de deteorização das válvulas, temos que todos os lotes 
+estão dentro dos limites definidos pelos gráficos e não é perceptível algum 
+comportamento não aleatório.
+
+Deste modo conclui-se que o processo está sob controle e não há impacto da 
+empresa de recuperação das válvulas no processo, apenas há o desgaste natural das
+peças, pela reutilização das mesmas pelos ciclos do butijão de gás.
+
 # Bibliography
 
 
