@@ -50,20 +50,23 @@ plot(rnorm(500))
 ```
 \section{Análise Básica}
 
+```{r}
+dados <- readxl::read_excel("utils/CEP.xlsx")
+dados$total <- dados$REJEITADAS+dados$LIBERADAS
+dados <- dados |> 
+  filter(CLIENTE == 'PAMPA')
+u <- dados$REJEITADAS/dados$total
+shapiro.test(u)
+```
 
 
 
 
 ```{r}
 
-dados <- readxl::read_excel("CEP.xlsx")
-dados$total <- dados$REJEITADAS+dados$LIBERADAS
-dados <- dados |> 
-  filter(CLIENTE == 'PAMPA')
-
 # graifico U
 
-u <- dados$REJEITADAS/dados$total
+
 UM <- mean(u)
 me <- 3*sqrt((UM/dados$total))
 LSC <- UM + me
