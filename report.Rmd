@@ -27,9 +27,9 @@ source("utils/trab_final_CEP.R")
 ```
 
 
-#Introdução
+# Introdução
 
-#Análise Básica
+# Análise Básica
 
 ```{r}
 dados <- readxl::read_excel("data/CEP.xlsx")
@@ -58,7 +58,7 @@ Desta forma, podemos ter 4 diferentes gráficos (Cartas de atributos) para esse 
 \item Carta \textbf{u}: Quando os dados são número de unidades (discreto) e as amostras podem ser de tamanhos diferentes.
 \end{itemize}
 
-Por conta disso, os dados analisados neste estudo são de forma distreta (número de ... rejeitados) e o tamanho amostraal varia em cada amostra coletada. Assim, a carta de controle mais correta a se usar neste estudo é a carta \textbf{u} (ou Gráfico U). No qual os limites de controle são definidos da seguinte forma:
+Por conta disso, os dados analisados neste estudo são de forma distreta (número de ... rejeitados) e o tamanho amostral varia em cada amostra coletada. Assim, a carta de controle mais correta a ser utilizada neste estudo é a carta \textbf{u} (ou Gráfico U). No qual os limites de controle são definidos da seguinte forma:
 
 \textbf{Linha Média:} (LM)
 
@@ -72,7 +72,7 @@ onde, $n$ é o tamanho amostral para cada amostra.
 
 \textbf{Limite Inferior de Controle:} (LIC)
 
-$$LSC =\bar{U} - 3\sqrt{\dfrac{\bar{U}}{n}}, $$
+$$LIC =\bar{U} - 3\sqrt{\dfrac{\bar{U}}{n}}, $$
 onde, $n$ é o tamanho amostral para cada amostra.
 
 ## Gráfico U
