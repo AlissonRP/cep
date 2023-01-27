@@ -178,14 +178,14 @@ Análisando o gráfico de controle U exposto pela Figura \ref{fig:gcont}, perceb
 tipo de não aleatoriedade. Então podemos concluir que o processo entá sob controle e de forma aleatóriamente distribuido.
 
 
-```{r gcont, fig.cap="Gráfico de controle U."}
+```{r gcont, fig.cap="Gráfico de controle U para o número de válvulas rejeitadas."}
 # graifico U
 UM <- mean(u)
 me <- 3*sqrt((UM/dados$total))
 LSC <- UM + me
 LIC <- UM - me
 
-g_controle2(vari = u,lsc = LSC,lic = LIC,lm = UM,laby = "")
+g_controle2(vari = u,lsc = LSC,lic = LIC,lm = UM,laby = "Válvulas Rejeitadas")
 ```
 
 
