@@ -3,7 +3,7 @@ title: "Investigando a deterioração das válvulas P45"
 author: "Alisson Rosa, João Inácio Scrimini e Vítor Pereira"
 abstract: "No presente trabalho buscamos investigar o sucateamento de válvulas de         botijão 
   de gás em uma indústria de recuperação
-  de válvulas de gás. É estudado o comportamento das peças rejeitadas ao longos dos meses, assim como também é utilizado gráficos de controle para averiguar a existência de anomalias."
+  de válvulas de gás. É estudado o comportamento das peças rejeitadas ao longos dos meses, assim como também é utilizado gráficos de controle para averiguar a existência de anomalias. Utilizando a carta de controle U, o precesso apresentou-se dentro de controle, durante o período estudo, de Outubro de 2022 a Janeiro de 2023."
 header-includes:
    - \usepackage[brazil]{babel}
    - \usepackage{bm}
@@ -174,7 +174,7 @@ onde, $n$ é o tamanho amostral para cada amostra.
 
 ## Gráfico U
 
-Análisando o gráfico de controle U exposto pela Figura \ref fig{fig:gcont}, percebe-se que o processo encontra dentro de controle durante todo o perído observado, de Outubro a Janeiro de 2023. Vericando os critérios de decisão em cartas de controle não foi identificado nenhum
+Análisando o gráfico de controle U exposto pela Figura \ref{fig:gcont}, percebe-se que o processo encontra dentro de controle durante todo o perído observado, de Outubro a Janeiro de 2023. Vericando os critérios de decisão em cartas de controle não foi identificado nenhum
 tipo de não aleatoriedade. Então podemos concluir que o processo entá sob controle e de forma aleatóriamente distribuido.
 
 
