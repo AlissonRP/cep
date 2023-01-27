@@ -1,6 +1,6 @@
 ---
 title: "Investigando a deterioração das válvulas P45"
-author: "Alisson Rosa, João Scrimini e Vítor Pereira"
+author: "Alisson Rosa, João Inácio Scrimini e Vítor Pereira"
 abstract: "No presente trabalho buscamos investigar o sucateamento de válvulas de         botijão 
   de gás em uma indústria de recuperação
   de válvulas de gás. É estudado o comportamento das peças rejeitadas ao longos dos meses, assim como também é utilizado gráficos de controle para averiguar a existência de anomalias."
@@ -56,13 +56,34 @@ exemplo, uma empresa que envia as peças para a recuperação após o nono ciclo
 estabelecido em lei) tem menos peças sucateadas que empresas que enviam para 
 recuperação após o vigésimo ou trigésimo ciclo. 
 
-Assim, decidiu-se utilizar dados de apenas uma peça e um cliente,
+Assim, decidiu-se utilizar dados de apenas um tipo de peça e um cliente,
 o predominante na amostra. Para que seja possível investigar se em 
 algum lote houve danificação pela empresa de recuperação ou se as 
-peças estão em seu ciclo natural de deterioração conforme o uso.
+peças estão em seu ciclo natural de deterioração conforme o uso. Desta forma, obtivemos um banco de dados com 21 amostras de tamanhos diferentes, do mês de outubro de 2022 até o mês de janeiro de 2023.
 
+A seguir, o estudo está dividido da seguinte forma: Seção 2, Análise Estatística, sendo dividida em duas subseções. Sendo elas: Análises descritiva das variáveis em estudo; Teste de normalidade. Na seção 3, são apresentados primeiramente uma referência teórica da carta de controle utilizada no estudo, e posteriormente sua respectiva análise. Por fim, na seção 4 as conclusões.
 
 # Análise Estatística
+
+Nesta seção serão apresentados a análise descritiva do estudo e teste de normalidade para os dados.
+
+## Análise descritiva
+
+Analisando os dados em estudo, observa-se na Tabela \ref{tab:tab1} os resultados das análises descritivas para as peças Rejeitadas e o Total de peças contidas. Desta forma, o máximo de peças é de 687 válvulas e o mínimo de 33 válvulas, com média de 246.8 válvulas Já para as peças Rejeitadas, temos um máximo de 107 válvulas, mínimo de 6 válvulas e média de 43.5 válvulas.
+
+\begin{table}[H]
+
+\caption{\label{tab:tab1}Resultado descritivo dos dados em estudo.}
+\centering
+\begin{tabular}[t]{lrrrrr}
+\hline
+Variável & média & mediana & Desvio Padrão & Mínimo & Máximo\\
+\hline
+Rejeitadas & 43.5 & 33 & 27 & 6 & 107\\
+Total & 246.8 & 202 & 173 & 33 & 687\\
+\hline
+\end{tabular}
+\end{table}
 
 ```{r}
 dados <- readxl::read_excel("data/CEP.xlsx")
@@ -72,30 +93,38 @@ dados <- dados |>
   filter(CLIENTE == 'PAMPA')
 u <- dados$REJEITADAS/dados$total
 p_normal = shapiro.test(u)$p.value
-```
-Podemos notar pela figura \@ref(fig:tnc), que ao longo dos meses o total mediano peças rejeitadas tende a ter quantidades elevadas em Novembro.
 
-```{r  tnc, fig.cap="Total Mediano de Rejeições ao longo dos Meses"}
+# knitr::kable(fastrep::describe(dados |> select(REJEITADAS,total)),caption = "Análise descritiva dos dados em estudo.",format = "latex")
+```
+
+Podemos notar pela figura \@ref(fig:tnc), que ao longo dos meses o total mediano de peças rejeitadas tende a ter quantidades elevadas em Outubro e Novembro, já em Dezembro e Janeiro a mediana de rejeitadas é bem mais baixo.
+
+
+```{r  tnc, fig.cap="Total Mediano de Rejeições ao longo dos Meses."}
+dados <- dados |> 
+  mutate(`MÊS` = fct_relevel(`MÊS`,"OUTUBRO","NOVEMBRO","DEZEMBRO","JANEIRO"))
 dados |> 
   group_by(`MÊS`) |> 
   summarise(TOTAL = median(REJEITADAS)) |> 
   ggplot(aes(x = `MÊS`, y = TOTAL, fill = `MÊS`)) +
+  labs(y="Total mediano rejeitadas",x="Mês") +
   geom_bar(stat = 'identity')
 ```
-Entretanto pela figura \@ref(fig:tnc2) que informa o caso médio, nota-se uma estabilidade nos meses.
 
+Entretanto pela figura \@ref(fig:tnc2) que informa o caso médio, nota-se uma melhor estabilidade entre os meses, tendo apenas um menor índice médio de pessar rejeitadas no mês de Dezembro.
 
-
-```{r  tnc2, fig.cap="Total Médio de Rejeições ao longo dos Meses"}
+```{r  tnc2, fig.cap="Total Médio de Rejeições ao longo dos Meses."}
 dados |> 
   group_by(`MÊS`) |> 
   summarise(TOTAL = mean(REJEITADAS)) |> 
   ggplot(aes(x = `MÊS`, y = TOTAL, fill = `MÊS`)) +
+  labs(y="Total mediano rejeitadas",x="Mês") +
   geom_bar(stat = 'identity')
 ```
 
 
-\subsection{Testes de Normalidade}
+## Testes de Normalidade
+
 Nessa seção vamos conferir se a porcentagem de peças sucateadas seguem uma 
 distribuição normal, utilizaremos o teste de Shapiro Wilk, que tem como hipóteses:
 
@@ -104,9 +133,11 @@ $$ H_1:\text{A variável não segue uma distribuição Normal}$$
 
 O teste de normalidade fornece um p-valor de `r p_normal`, com isso não 
 rejeitamos a hipótese $H_0$, concluindo que não existem evidências que a 
-distribuição da porcentagem de peças sucateadas não siga uma distribuição normal.
+distribuição da proporção de peças sucateadas não siga uma distribuição normal.
 
 Portanto, podemos prosseguir com as análises de gráfico de controle. 
+
+
 # Gráfico de Controle
 
 Nesta seção, serão apresentados uma breve explicação do método utilizado e posteriormente suas respectivas análises.
@@ -143,6 +174,8 @@ onde, $n$ é o tamanho amostral para cada amostra.
 
 ## Gráfico U
 
+Análisando o gráfico de controle U exposto pela Figura \ref fig{fig:gcont}, percebe-se que o processo encontra dentro de controle durante todo o perído observado, de Outubro a Janeiro de 2023. Vericando os critérios de decisão em cartas de controle não foi identificado nenhum
+tipo de não aleatoriedade. Então podemos concluir que o processo entá sob controle e de forma aleatóriamente distribuido.
 
 
 ```{r gcont, fig.cap="Gráfico de controle U."}
@@ -158,11 +191,11 @@ g_controle2(vari = u,lsc = LSC,lic = LIC,lm = UM,laby = "")
 
 # Conclusões
 
-O gráfico mais apropriado para a porcentagem de peças sucateadas em um lote é a
+O gráfico mais apropriado para análisar o número de peças sucateadas em um lote é a
 carta de controle U, visto que o tamanho da amostra é diferente em cada lote.
 
 Com isso percebemos que na a Figura \@ref(fig:gcont), com o gráfico de controle 
-para porcentagem de deteorização das válvulas, temos que todos os lotes 
+para a quantidade de válvulas para deteorização (Gráfico U), temos que todos os lotes 
 estão dentro dos limites definidos pelos gráficos e não é perceptível algum 
 comportamento não aleatório.
 
