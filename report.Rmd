@@ -3,7 +3,7 @@ title: "Investigando a deterioração das válvulas P45"
 author: "Alisson Rosa, João Scrimini e Vítor Pereira"
 abstract: "No presente trabalho buscamos investigar o sucateamento de válvulas de         botijão 
   de gás em uma indústria de recuperação
-  de válvulas de gás. É estudado o comportamento das peças rejeitadas ao longos dos meses, assim como também é utilizado gráficos de controle para averiguar a existência de anomalias"
+  de válvulas de gás. É estudado o comportamento das peças rejeitadas ao longos dos meses, assim como também é utilizado gráficos de controle para averiguar a existência de anomalias."
 header-includes:
    - \usepackage[brazil]{babel}
    - \usepackage{bm}
@@ -38,7 +38,7 @@ peças liberadas e peças rejeitadas.
 
 Nota-se que é um setor extremamente específico da cadeia industrial brasileira e
 pouco conhecido pelo público em geral, pois a empresa analisada trabalha no método
-B2B (Business-to-Business, em português, empresa que faz negócio com empresas).
+B2B (Business-to-Business, em português, empresa que realiza negócios com empresas).
 Assim trabalhando de forma nacional apenas para grandes companhias de gás e 
 empresas de requalificação de vasilhames de gás. 
 
@@ -48,26 +48,21 @@ de mangueiras para gás, assim recuperando desde válvulas de gás de cozinha de
 kg (válvula P13) até válvulas de gás comercial de 45 kg (válvula P45), sendo 
 essa última a qual utilizaremos para a análise estatística. 
 
-No entanto, para fins de uma comparação estatística coerente, realizaremos um
+No entanto, para fins de uma comparação estatística coerente, será realizado um
 corte no nosso banco de dados para que não seja afetado pela diferença de peças 
 sucateadas de um cliente para outro. Ou seja, as empresas enviam as peças para a 
-recuperação de válvulas em ciclos diferentes, por exemplo, uma empresa que envia
-as peças para a recuperação após o nono ciclo (o estabelecido em lei) tem menos
-peças sucateadas que empresas que enviam para recuperação após o vigésimo ou 
-trigésimo ciclo. 
+recuperação de válvulas em ciclos (reutilização dos botijões) diferentes, por 
+exemplo, uma empresa que envia as peças para a recuperação após o nono ciclo (o 
+estabelecido em lei) tem menos peças sucateadas que empresas que enviam para 
+recuperação após o vigésimo ou trigésimo ciclo. 
 
 Assim, decidiu-se utilizar dados de apenas uma peça e um cliente,
 o predominante na amostra. Para que seja possível investigar se em 
 algum lote houve danificação pela empresa de recuperação ou se as 
-peças estão em seu ciclo natural de deteriorização conforme o uso.
+peças estão em seu ciclo natural de deterioração conforme o uso.
 
 
-# Análise Básica
-
-
-
-
-
+# Análise Estatística
 
 ```{r}
 dados <- readxl::read_excel("data/CEP.xlsx")
@@ -76,7 +71,7 @@ dados$total <- dados$REJEITADAS+dados$LIBERADAS
 dados <- dados |> 
   filter(CLIENTE == 'PAMPA')
 u <- dados$REJEITADAS/dados$total
-shapiro.test(u)
+p_normal = shapiro.test(u)$p.value
 ```
 Podemos notar pela figura \@ref(fig:tnc), que ao longo dos meses o total mediano peças rejeitadas tende a ter quantidades elevadas em Novembro.
 
@@ -98,6 +93,20 @@ dados |>
   ggplot(aes(x = `MÊS`, y = TOTAL, fill = `MÊS`)) +
   geom_bar(stat = 'identity')
 ```
+
+
+\subsection{Testes de Normalidade}
+Nessa seção vamos conferir se a porcentagem de peças sucateadas seguem uma 
+distribuição normal, utilizaremos o teste de Shapiro Wilk, que tem como hipóteses:
+
+$$H_0:\text{A variável segue uma distribuição Normal}$$
+$$ H_1:\text{A variável não segue uma distribuição Normal}$$
+
+O teste de normalidade fornece um p-valor de `r p_normal`, com isso não 
+rejeitamos a hipótese $H_0$, concluindo que não existem evidências que a 
+distribuição da porcentagem de peças sucateadas não siga uma distribuição normal.
+
+Portanto, podemos prosseguir com as análises de gráfico de controle. 
 # Gráfico de Controle
 
 Nesta seção, serão apresentados uma breve explicação do método utilizado e posteriormente suas respectivas análises.
